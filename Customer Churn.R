@@ -1,11 +1,16 @@
 
 # Install packages needed for reading csv files
-install.packages("gdata")
-install.packages("xlsx")
+#install.packages("gdata")
+#install.packages("xlsx")
+#install.packages("tidyr")
+#install.packages("dplyr")
+
 
 # Load the packages
 library(gdata)
 library(xlsx)
+library(tidyr)
+library(dplyr)
 
 # Set the working directory
 getwd()
