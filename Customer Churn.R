@@ -4,6 +4,8 @@
 #install.packages("xlsx")
 #install.packages("tidyr")
 #install.packages("dplyr")
+#install.package("caret")
+#install.package("psych")
 
 
 # Load the packages
