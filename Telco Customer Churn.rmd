@@ -18,6 +18,7 @@ Banks, telephone service companies, Internet service providers, pay TV companies
 
 The data will be aquired from dataset [Telco Customer Churn](https://www.kaggle.com/pavanraj159/telecom-customer-churn-prediction/notebook) available on Kaggle.com
 Each row represents a customer, each column contains customer’s attributes described on the column Metadata.
+
 The raw data contains 7043 rows (customers) and 21 columns (features). The “Churn” column is our target.
 
 ```{r}
@@ -45,8 +46,14 @@ categldx2
   -  Write for loop from 1 to all numbers in categIdx and in for loop apply dummy.code. Collect the result and append it to end of rawData using cbind(rawData,result) 
   
   
+```{r}
   
-  
+
+
+
+
+
+```
   
 ## Data Modeling:
 
