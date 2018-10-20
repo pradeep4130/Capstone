@@ -13,6 +13,9 @@ library(gdata)
 library(xlsx)
 library(tidyr)
 library(dplyr)
+library(psych)
+library(fastDummies)
+
 
 # Set the working directory
 getwd()
@@ -28,6 +31,37 @@ colnames(rawData)
 head(rawData)
 tail(rawData)
 lapply(rawData,mean)
+
+# 2. Pre-processing
+# For input categorical columns-apply ‘dummy coding/one-hot encoding’ 
+# using dummy.code function from psych library
+
+#figure out which cols are categorical
+
+#categldx = which(lapply(rawData,class) == "factor")
+categldx = sapply(rawData,is.categorical)
+
+
+#Write for loop from 1 to all numbers in categIdx 
+#and in for loop apply dummy.code. Collect the result and 
+#append it to end of rawData using cbind(rawData,result)
+
+result <- dummy_cols(rawData, select_columns= "gender")
+head(result)
+
+
+#figure out which cols are numerical
+
+numeldx = unlist(lapply(rawData,is.numeric))
+
+
+
+
+
+
+
+
+
 
 
 
