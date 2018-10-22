@@ -14,7 +14,7 @@ library(xlsx)
 library(tidyr)
 library(dplyr)
 library(psych)
-library(fastDummies)
+library(caret)
 
 
 # Set the working directory
@@ -38,23 +38,25 @@ lapply(rawData,mean)
 
 #figure out which cols are categorical
 
-#categldx = which(lapply(rawData,class) == "factor")
-categldx = sapply(rawData,is.categorical)
-
+categldx <- which(lapply(rawData,class) == "factor")
+categldx
 
 #Write for loop from 1 to all numbers in categIdx 
 #and in for loop apply dummy.code. Collect the result and 
 #append it to end of rawData using cbind(rawData,result)
 
-result <- dummy_cols(rawData, select_columns= "gender")
-head(result)
+result <- for(x in 2:length(categldx)){
+
+ dummy.code(rawData %>% categldx[x])
+
+}
+View(result)
 
 
 #figure out which cols are numerical
 
 numeldx = unlist(lapply(rawData,is.numeric))
-
-
+numeldx
 
 
 
