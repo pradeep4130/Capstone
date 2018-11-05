@@ -9,8 +9,8 @@
 
 
 # Load the packages
-library(gdata)
-library(xlsx)
+#library(gdata)
+#library(xlsx)
 library(tidyr)
 library(dplyr)
 library(psych)
@@ -23,7 +23,7 @@ setwd("D:/R/capstone")
 cat("-----------------------------------------------------------------/n")
 
 # Read the Customer churn csv file
-rawData=read.csv("D:/R/capstone/Customer_Churn.csv", header=TRUE)
+rawData=read.csv("D:/R/capstone/capstone/Customer_Churn.csv", header=TRUE)
 
 #Check if all was read fine
 dim(rawData)
@@ -38,30 +38,48 @@ lapply(rawData,mean)
 
 #figure out which cols are categorical
 
-categldx <- which(lapply(rawData,class) == "factor")
-categldx
+categldx <- which(unlist(lapply(rawData,class) == "factor"))
+categldx <- data.frame(categldx)
+
+class(categldx)
+
+# Remove customerID column from categldx
+
+idx = which(colnames(rawData)=="customerID")
+categldx = categldx[-idx,]
+
 
 #Write for loop from 1 to all numbers in categIdx 
 #and in for loop apply dummy.code. Collect the result and 
 #append it to end of rawData using cbind(rawData,result)
 
-result <- for(x in 2:length(categldx)){
+#y <- categldx[2]
+#y
+#rawData[y]
 
- dummy.code(rawData %>% categldx[x])
-
+for (i in categldx){ 
+result = dummy.code(rawData[,i])
+colnames(result) = paste(colnames(rawData[i]),unique(rawData[,i]), sep = "_")
+rawData = cbind(rawData,result)
 }
-View(result)
 
+View(rawData)
 
 #figure out which cols are numerical
 
 numeldx = unlist(lapply(rawData,is.numeric))
-numeldx
+numeldx = data.frame(numeldx)
 
 
+#For input numerical columns, apply centering, scaling, remove columns 
+#with zero variance or near-zero variance.
 
+for (i in numeldx==TRUE){
+preProcValues <- preProcess(rawData[,i],method = c("center","scale", "zv","nzv"))
+prePredValues <- predict(preProcValues, rawData)
+}
 
-
+head(prePredValues)
 
 
 
