@@ -15,6 +15,7 @@ library(tidyr)
 library(dplyr)
 library(psych)
 library(caret)
+library(VIM)
 
 
 # Set the working directory
@@ -22,10 +23,10 @@ getwd()
 setwd("D:/R/capstone")
 cat("-----------------------------------------------------------------/n")
 
-# Read the Customer churn csv file
+# 1. Read the Customer churn csv file
 rawData=read.csv("D:/R/capstone/capstone/Customer_Churn.csv", header=TRUE)
 
-#Check if all was read fine
+# 1.1 Check if all was read fine
 dim(rawData)
 colnames(rawData)
 head(rawData)
@@ -33,7 +34,58 @@ tail(rawData)
 lapply(rawData,mean)
 
 # 2. Pre-processing
-# For input categorical columns-apply ‘dummy coding/one-hot encoding’ 
+
+# 2.1figure out which cols are numerical
+
+numeIdx = which(unlist(lapply(rawData,is.numeric)))
+numeIdx = data.frame(numeIdx)
+
+head(numeIdx)
+
+# Total missing values
+length(which(is.na(rawData)))
+
+# Which columns have missing values
+summary(rawData)
+
+# Check for missing values and decide what you want to do about them.
+missingIdx <- which(is.na(rawData[,20]))
+
+# kNN imputation
+
+rawData <- kNN(rawData, variable = "TotalCharges", k=6)
+summary(rawData)
+
+for(i in missingIdx){
+print(rawData[i,20])
+}
+
+rawData <- subset(rawData, select = customerID:Churn)
+summary(rawData)
+
+
+
+# If replacing missing values with mean value
+
+# mean(rawData[,20],is.na=TRUE)
+# for (i in missingIdx) {
+#    rawData$TotalCharges[i] <- 2283.3
+# }
+
+#For input numerical columns, apply centering, scaling, remove columns 
+#with zero variance or near-zero variance.
+
+
+for (i in numeIdx){
+preProcValues <- preProcess(rawData[,i],method = c("center","scale", "zv","nzv"))
+prePredValues <- predict(preProcValues, rawData)
+}
+
+head(prePredValues)
+View(prePredValues)
+
+
+# 2.2 For input categorical columns-apply ‘dummy coding/one-hot encoding’ 
 # using dummy.code function from psych library
 
 #figure out which cols are categorical
@@ -58,30 +110,13 @@ categldx = categldx[-idx,]
 #rawData[y]
 
 for (i in categldx){ 
-result = dummy.code(rawData[,i])
-colnames(result) = paste(colnames(rawData[i]),unique(rawData[,i]), sep = "_")
-rawData = cbind(rawData,result)
+  result = dummy.code(rawData[,i])
+  colnames(result) = paste(colnames(rawData[i]),unique(rawData[,i]), sep = "_")
+  rawData = cbind(rawData,result)
 }
+
 
 View(rawData)
-
-#figure out which cols are numerical
-
-numeldx = unlist(lapply(rawData,is.numeric))
-numeldx = data.frame(numeldx)
-
-
-#For input numerical columns, apply centering, scaling, remove columns 
-#with zero variance or near-zero variance.
-
-for (i in numeldx==TRUE){
-preProcValues <- preProcess(rawData[,i],method = c("center","scale", "zv","nzv"))
-prePredValues <- predict(preProcValues, rawData)
-}
-
-head(prePredValues)
-
-
-
+summary(rawData)
 
 
