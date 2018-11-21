@@ -78,11 +78,11 @@ summary(rawData)
 
 for (i in numeIdx){
 preProcValues <- preProcess(rawData[,i],method = c("center","scale", "zv","nzv"))
-prePredValues <- predict(preProcValues, rawData)
+PredValues <- predict(preProcValues, rawData)
 }
 
-head(prePredValues)
-View(prePredValues)
+head(PredValues)
+View(PredValues)
 
 
 # 2.2 For input categorical columns-apply ‘dummy coding/one-hot encoding’ 
