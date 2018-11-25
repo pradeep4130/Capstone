@@ -6,6 +6,7 @@
 #install.packages("dplyr")
 #install.package("caret")
 #install.package("psych")
+#install.packages("VIM")
 
 
 # Load the packages
@@ -20,11 +21,11 @@ library(VIM)
 
 # Set the working directory
 getwd()
-setwd("D:/R/capstone")
+setwd("C:/Users/prade/OneDrive/Desktop/R Projects/CC")
 cat("-----------------------------------------------------------------/n")
 
 # 1. Read the Customer churn csv file
-rawData=read.csv("D:/R/capstone/capstone/Customer_Churn.csv", header=TRUE)
+rawData=read.csv("C:/Users/prade/OneDrive/Desktop/R Projects/CC/Customer_Churn.csv", header=TRUE)
 
 # 1.1 Check if all was read fine
 dim(rawData)
